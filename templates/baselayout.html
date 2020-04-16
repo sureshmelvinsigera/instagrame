@@ -1,0 +1,98 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Instagrame</title>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+         <script type="text/javascript">
+            $(document).ready(function(event){
+                $(".like-btn").click(function(e){
+                    e.preventDefault()
+                    var this_ = $(this)
+                    var likeUrl = this_.attr("data-href")
+                    var likeCount = parseInt(this_.attr("data-likes"))
+                    var addLike = likeCount + 1
+                    var removeLike = likeCount -1
+                    $.ajax({
+                        url: likeUrl,
+                        method: "GET",
+                        data: {},
+                        success:function(data){
+                            console.log(data)
+                            var newLikes;
+                            if (data.liked){
+                                $(".heart").toggleClass('heart-red fa-heart');
+                                $(".photo__likes").text(addLike + ' likes');
+                            } else {
+                                $(".fa-heart").toggleClass('fa-heart-o');
+                                $(".photo__likes").text(removeLike + ' like');
+                            }
+                        }, error: function(error){
+                            console.log("error")
+                            console.log(error)
+                        }
+                    })
+                });
+             });
+         </script>
+    </head> 
+    <body>
+        <nav class="navigation" style="vertical-align: middle">
+            <a href="{% url 'timeline:home' %}">
+                <img 
+                    src="{% static 'images/navLogo.png' %}"
+                    alt="logo"
+                    title="logo"
+                    class="navigation__logo"
+                />
+            </a>
+            {% if user.is_authenticated %}
+            <div class="navigation__search-container">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="Search">
+            </div>
+            <div class="navigation__icons">
+                <a href="" class="navigation__link">
+                    <i class="fa fa-envelope"></i>
+                </a>
+                <a href="{% url 'timeline:share' %}" class="navigation__link">
+                    <i class="fa fa-upload" style="color:#125688"></i>
+                </a>
+                <a href="{% url 'profiles:index' %}" class="navigation__link">
+                    <i class="fa fa-user-o"></i>
+                </a>
+            </div>
+            {% endif %}
+        </nav>
+{% block content %}
+{% endblock %}
+<footer class="footer">
+            <nav class="footer__nav">
+                <ul class="footer__list">
+                    <li class="footer__list-item"><a href="#" class="footer__link">about us</a></li>
+                    <li class="footer__list-item"><a href="#" class="footer__link">support</a></li>
+                    <li class="footer__list-item"><a href="#" class="footer__link">blog</a></li>
+                    <li class="footer__list-item"><a href="#" class="footer__link">press</a></li>
+                    <li class="footer__list-item"><a href="#" class="footer__link">api</a></li>
+                    <li class="footer__list-item"><a href="#" class="footer__link">jobs</a></li>
+                    <li class="footer__list-item"><a href="#" class="footer__link">privacy</a></li>
+                    <li class="footer__list-item"><a href="#" class="footer__link">terms</a></li>
+                    <li class="footer__list-item"><a href="#" class="footer__link">directory</a></li>
+                    <li class="footer__list-item"><a href="#" class="footer__link">language</a></li>
+                </ul>
+            </nav>
+            <span class="footer__copyright">© 2017 instagram</span>
+        </footer>
+        <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+        <script src="{% static 'js/app.js' %}"></script>
+    </body>
+</html>

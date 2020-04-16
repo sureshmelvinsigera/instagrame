@@ -1,0 +1,17 @@
+{% extends 'baselayout.html' %}
+{% block content %}
+<h1> Like a charm: timeline</h1>
+<div class="posts">
+{% for post in posts %}
+	<div class="post">
+		{% if post.photo %}
+		<img src="{{ post.photo.url }}"/>
+		{% endif %}
+		<h2><a href="#">{{ post.title }}</a></h2>
+		<p>{{ post.snippet }}</p>
+		<p>{{ post.date }}</p>
+		<p>Posted by: {{ post.author }}</p>
+	<div>
+{% endfor %}
+</div>
+{% endblock %}

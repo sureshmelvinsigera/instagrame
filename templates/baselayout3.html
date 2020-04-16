@@ -1,0 +1,29 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+	<h1><a href="{% url 'timeline:home' %}"><img class="top_logo" src="{% static 'logo.png' %}"></a></h1>
+	<nav>
+		<ul>
+			{% if user.is_authenticated %}
+			<li>
+				<form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+					{% csrf_token %}
+					<button type="submit">Logout</button>
+				</form>
+				<a href="{% url 'timeline:share' %}">Share</a>
+			</li>
+			{% else %}
+			<li><a href="{% url 'accounts:login' %}">Login</a></li>
+			<li><a href="{% url 'accounts:signup' %}">Signup</a></li>
+			{% endif %}
+		</ul>
+	</nav>
+{% block content %}
+{% endblock %}
+</body>
+</html>

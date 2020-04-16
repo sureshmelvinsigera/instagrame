@@ -1,0 +1,61 @@
+{% extends 'baselayout.html' %}
+{% load static %}
+{% block content %}
+<main class="feed">
+    {% for post in posts %}
+            <section class="photo">
+                <header class="photo__header">
+                    <div class="photo__header-column">
+                        <img
+                            class="photo__avatar"
+                            src="{{ post.defpic.def_picture.url }}"
+                        />
+                    </div>
+                    <div class="photo__header-column">
+                        <a href="{% url 'profiles:author-profile' author=post.author %}"><span class="photo__username">{{ post.author }}</span></a>
+                        <span class="photo__location">
+                            {% if post.location %}
+                            {{ post.location }}
+                            {% endif %}
+                        </span>
+                    </div>
+                </header>
+                {% if post.photo %}
+                <div class="photo__file-container">
+                    <img
+                        class="photo__file"
+                        src="{{ post.photo.url }}"
+                    />
+                </div>
+                {% endif %}
+                <div class="photo__info">
+                    <div class="photo__icons">
+                        <span class="photo__icon">
+                        <a class="like-btn" data-href="{{ post.get_api_like_url }}" data-likes="{{ post.likes.count }}" href="{{ post.get_like_url }}">
+                            {% if post.is_liked %}
+                                <i class="fa heart-red fa-heart fa-lg"></i>
+                            {% else %}
+                                <i class="fa fa-heart-o heart fa-lg"></i>
+                            {% endif %}
+                            </a>
+                        </span>
+                        <span class="photo__icon">
+                            <i class="fa fa-comment-o fa-lg"></i>
+                        </span>
+                    </div>
+                    <span class="photo__likes">{{ post.likes.count }} like{{ post.likes.count|pluralize }}</span>
+                    <ul class="photo__comments">
+                        <li class="photo__comment">
+                            <a href="{% url 'profiles:author-profile' author=post.author %}"><span class="photo__comment-author">{{ post.author }}</span></a>{{ post.snippet }}
+                        </li>
+                    </ul>
+                    <span class="photo__time-ago">{{ post.date }}</span>
+                    <div class="photo__add-comment-container">
+                        <textarea placeholder="Add a comment..." class="photo__add-comment"></textarea>
+                        <i class="fa fa-ellipsis-h"></i>
+                    </div>
+                </div>
+            </section>
+    {% endfor %}
+        </main>
+{% endblock %}

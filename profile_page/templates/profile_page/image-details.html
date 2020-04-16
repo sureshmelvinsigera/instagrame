@@ -1,0 +1,54 @@
+{% extends 'baselayout.html' %}
+{% load static from staticfiles %}
+{% block content %}
+<main class="image-detail">
+            <section class="image">
+                <div class="image__file-container">
+                    <img 
+                        src="{{image.photo.url}}"
+                        class="image__file"
+                    />
+                </div>
+                <div class="image__info">
+                    <header class="image__header">
+                        <div class="image__avatar-container">
+                            <img 
+                                src="{% static 'images/avatar.jpg' %}"
+                                class="image__avatar"
+                            />
+                        </div>
+                        <div class="image__info">
+                            <span class="image__author">{{user}}</span>
+                            <span class="image__location">The Fat Policeman, Budapest</span>
+                        </div>
+                    </header>
+                    <ul class="image__comments">
+                        <li class="image__comment">
+                            <span class="image__comment-author">{{image.author}}</span> {{image.caption}}
+                        </li>
+                    </ul>
+                    <div class="image__actions">
+                        <a class="like-btn" data-href="{{ image.get_api_like_url }}" data-likes="{{ image.likes.count }}" href="{{ image.get_like_url }}">
+                        <span class="image__action">
+                            {% if image.is_liked %}
+                                <i id="like-icon" class="fa heart-red fa-heart fa-lg"></i>
+                            {% else %}
+                                <i id="like-icon" class="fa fa-heart-o heart fa-lg"></i>
+                            {% endif %}
+                            </a>
+                        </span>
+                        </a>
+                        <span class="image__action">
+                            <i class="fa fa-comment-o fa-lg"></i>
+                        </span>
+                    </div>
+                    <span class="image__likes">{{ image.likes.count }} likes</span>
+                    <span class="image__date">{{image.date}}</span>
+                    <div class="image__add-comment">
+                        <textarea class="image__textarea"></textarea>
+                        <i class="fa fa-ellipsis-h"></i>
+                    </div>
+                </div>
+            </section>
+        </main>
+{% endblock %}

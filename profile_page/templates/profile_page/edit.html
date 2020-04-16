@@ -1,0 +1,12 @@
+{% extends 'baselayout.html' %}
+
+{% block content %}
+	<div class="edit-profile">
+		<h2>Edit Your Profile</h2>
+		<form class="edit-form" action="{% url 'profiles:edit_profile' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="Save">
+		</form>
+	</div>
+{% endblock %}

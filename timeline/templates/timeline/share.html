@@ -1,0 +1,12 @@
+{% extends 'baselayout.html' %}
+
+{% block content %}
+	<div class="share-post">
+		<h2>Share Your Moments</h2>
+		<form class="share-form" action="{% url 'timeline:share' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="Share">
+		</form>
+	</div>
+{% endblock %}
